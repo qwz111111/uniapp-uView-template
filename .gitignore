@@ -2,6 +2,9 @@
 node_modules/
 unpackage/
 dist/
+CVS/
+build/
+
 
 # local env files
 .env.local
