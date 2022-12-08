@@ -1,4 +1,4 @@
-import { baseURL } from './config'
+import { mgop } from '@aligov/jssdk-mgop'
 
 /**
  * 封装接口
@@ -8,7 +8,7 @@ import { baseURL } from './config'
  * @param {String} method 请求方式
  * @return {Promise}
  */
-export const request = (url, data, isLoad = true, method = 'POST') => {
+export const zlbmgop = (url, data, isLoad = true, method = 'GET') => {
   // 错误提示
   const errToast = err => {
     isLoad && uni.hideLoading()
@@ -19,8 +19,8 @@ export const request = (url, data, isLoad = true, method = 'POST') => {
   }
   // 获取id
   const getId = () => {
-    if (uni.getStorageSync('userInfo')) {
-      return JSON.parse(uni.getStorageSync('userInfo')).m
+    if (uni.getStorageSync('zlbloginData')) {
+      return JSON.parse(uni.getStorageSync('zlbloginData')).m
     }
     return ''
   }
@@ -34,35 +34,28 @@ export const request = (url, data, isLoad = true, method = 'POST') => {
     }
     return data
   }
-
   return new Promise((resolve, reject) => {
     isLoad && uni.showLoading({ title: '加载中……', mask: true })
-
-    uni.request({
-      header: { 'content-type': 'application/x-www-form-urlencoded' },
-      url: `${baseURL}${url}`,
-      method: method,
+    mgop({
+      api: url, // 必须
+      host: 'https://mapi.zjzwfw.gov.cn/',
+      dataType: 'JSON',
+      type: method,
+      appKey: '6xxfslcv+200600801+tlkciqg', // 必须
       data: params(),
-      success(res) {
-        if (typeof res.data !== 'object') {
-          errToast('服务端异常！')
-          reject(res)
-        } else if (res.statusCode !== 200) {
-          errToast(res.errMsg)
+      timeout: 5000,
+      onSuccess: res => {
+        isLoad && uni.hideLoading()
+        if (res.code != 1000) {
+          errToast(res.message)
           reject(res)
         }
         resolve(res.data)
       },
-      fail(err) {
-        if (err.errMsg.includes('timeout')) {
-          errToast('请求超时!')
-        } else {
-          errToast('网络开了小差!')
-        }
-        reject(err)
-      },
-      complete() {
+      onFail: err => {
         isLoad && uni.hideLoading()
+        errToast('网络开了小差!')
+        erject(err)
       }
     })
   })
