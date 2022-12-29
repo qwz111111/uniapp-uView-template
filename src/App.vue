@@ -20,13 +20,13 @@ export default {
 @import './style/root.css';
 /* #ifdef H5 */
 html {
-  color: var(--text-color-inverse);
+  color: $uni-text-color;
   font-size: var(--font-size-base);
 }
 /* #endif */
 /* #ifndef H5 */
 page {
-  color: var(--text-color-inverse);
+  color: $uni-text-color;
   font-size: var(--font-size-base);
 }
 /* #endif */
