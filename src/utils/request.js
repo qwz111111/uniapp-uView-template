@@ -1,7 +1,7 @@
 import { baseURL } from './config'
 
 /* 错误提示 */
-const errToast = err => {
+const errToast = (isLoad, err) => {
   isLoad && uni.hideLoading()
   uni.showModal({
     title: '温馨提示',
@@ -47,19 +47,19 @@ export const request = (url, data, isLoad = true, method = 'POST') => {
       data: params(),
       success(res) {
         if (typeof res.data !== 'object') {
-          errToast('服务端异常！')
+          errToast(isLoad, '服务端异常！')
           reject(res)
         } else if (res.statusCode !== 200) {
-          errToast(res.errMsg)
+          errToast(isLoad, res.errMsg)
           reject(res)
         }
         resolve(res.data)
       },
       fail(err) {
         if (err.errMsg.includes('timeout')) {
-          errToast('请求超时!')
+          errToast(isLoad, '请求超时!')
         } else {
-          errToast('网络开了小差!')
+          errToast(isLoad, '网络开了小差!')
         }
         reject(err)
       },
@@ -106,16 +106,16 @@ export const uploadFile = (
       formData: params(),
       success(res) {
         if (res.statusCode !== 200) {
-          errToast(res.errMsg)
+          errToast(isLoad, res.errMsg)
           reject(res)
         }
         resolve(JSON.parse(res.data))
       },
       fail(err) {
         if (err.errMsg.includes('timeout')) {
-          errToast('请求超时!')
+          errToast(isLoad, '请求超时!')
         } else {
-          errToast('网络开了小差!')
+          errToast(isLoad, '网络开了小差!')
         }
         reject(err)
       },
