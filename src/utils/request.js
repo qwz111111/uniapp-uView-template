@@ -1,5 +1,13 @@
 import { baseURL } from './config'
 
+/* 获取id */
+const getId = () => {
+  if (uni.getStorageSync('userInfo')) {
+    return JSON.parse(uni.getStorageSync('userInfo')).m
+  }
+  return ''
+}
+
 /* 错误提示 */
 const errToast = (isLoad, err) => {
   isLoad && uni.hideLoading()
@@ -7,14 +15,6 @@ const errToast = (isLoad, err) => {
     title: '温馨提示',
     content: err
   })
-}
-
-/* 获取id */
-const getId = () => {
-  if (uni.getStorageSync('userInfo')) {
-    return JSON.parse(uni.getStorageSync('userInfo')).m
-  }
-  return ''
 }
 
 /**

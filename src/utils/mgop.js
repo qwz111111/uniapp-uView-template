@@ -1,5 +1,22 @@
 import { mgop } from '@aligov/jssdk-mgop'
 
+/* 错误提示 */
+const errToast = (isLoad, err) => {
+  isLoad && uni.hideLoading()
+  uni.showModal({
+    title: '温馨提示',
+    content: err
+  })
+}
+
+/* 获取id */
+const getId = () => {
+  if (uni.getStorageSync('userInfo')) {
+    return JSON.parse(uni.getStorageSync('userInfo')).m
+  }
+  return ''
+}
+
 /**
  * 封装接口
  * @param {String} url
@@ -9,21 +26,6 @@ import { mgop } from '@aligov/jssdk-mgop'
  * @return {Promise}
  */
 export const zlbmgop = (url, data, isLoad = true, method = 'GET') => {
-  // 错误提示
-  const errToast = err => {
-    isLoad && uni.hideLoading()
-    uni.showModal({
-      title: '温馨提示',
-      content: err
-    })
-  }
-  // 获取id
-  const getId = () => {
-    if (uni.getStorageSync('zlbloginData')) {
-      return JSON.parse(uni.getStorageSync('zlbloginData')).m
-    }
-    return ''
-  }
   // 拼接参数
   const params = () => {
     if (getId()) {
@@ -47,14 +49,14 @@ export const zlbmgop = (url, data, isLoad = true, method = 'GET') => {
       onSuccess: res => {
         isLoad && uni.hideLoading()
         if (res.code != 1000) {
-          errToast(res.message)
+          errToast(isLoad, res.message)
           reject(res)
         }
         resolve(res.data)
       },
       onFail: err => {
         isLoad && uni.hideLoading()
-        errToast('网络开了小差!')
+        errToast(isLoad, '网络开了小差!')
         erject(err)
       }
     })
