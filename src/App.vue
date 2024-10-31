@@ -13,21 +13,6 @@ export default {
 </script>
 
 <style lang="scss">
-/* uview ui */
+@import './style/index.css';
 @import 'uview-ui/index.scss';
-/* my style */
-@import './style/base.css';
-@import './style/root.css';
-/* #ifdef H5 */
-html {
-  color: $uni-text-color;
-  font-size: var(--font-size-base);
-}
-/* #endif */
-/* #ifndef H5 */
-page {
-  color: $uni-text-color;
-  font-size: var(--font-size-base);
-}
-/* #endif */
 </style>

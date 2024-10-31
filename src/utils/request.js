@@ -1,20 +1,31 @@
-import { baseURL } from './config'
-
-/* 获取id */
-const getId = () => {
-  if (uni.getStorageSync('userInfo')) {
-    return JSON.parse(uni.getStorageSync('userInfo')).m
-  }
-  return ''
-}
+const baseURL = import.meta.env.VITE_API_URL
 
 /* 错误提示 */
 const errToast = (isLoad, err) => {
   isLoad && uni.hideLoading()
-  uni.showModal({
-    title: '温馨提示',
-    content: err
-  })
+  uni.showToast({ icon: 'none', title: err, duration: 2000 })
+}
+
+/* 获取id */
+const getId = () => {
+  let m = ''
+  try {
+    const value = uni.getStorageSync('m')
+    value ? (m = value) : (m = '')
+  } catch (e) {
+    m = ''
+  }
+}
+
+/* 拼接参数 */
+const params = data => {
+  if (getId()) {
+    return {
+      m: getId(),
+      ...data
+    }
+  }
+  return data
 }
 
 /**
@@ -26,17 +37,6 @@ const errToast = (isLoad, err) => {
  * @return {Promise}
  */
 export const request = (url, data, isLoad = true, method = 'GET') => {
-  // 拼接参数
-  const params = () => {
-    if (getId()) {
-      return {
-        m: getId(),
-        ...data
-      }
-    }
-    return data
-  }
-
   return new Promise((resolve, reject) => {
     isLoad && uni.showLoading({ title: '加载中……', mask: true })
 
@@ -44,7 +44,7 @@ export const request = (url, data, isLoad = true, method = 'GET') => {
       header: { 'content-type': 'application/x-www-form-urlencoded' },
       url: `${baseURL}${url}`,
       method: method,
-      data: params(),
+      data: params(data),
       success(res) {
         if (typeof res.data !== 'object') {
           errToast(isLoad, '服务端异常！')
@@ -52,6 +52,10 @@ export const request = (url, data, isLoad = true, method = 'GET') => {
         } else if (res.statusCode !== 200) {
           errToast(isLoad, res.errMsg)
           reject(res)
+        }
+        if (!res.data.success) {
+          errToast(isLoad, res.data.message || '服务端未知错误')
+          reject(res.data)
         }
         resolve(res.data)
       },
@@ -86,16 +90,6 @@ export const uploadFile = (
   isLoad = true,
   name = 'file'
 ) => {
-  // 拼接参数
-  const params = () => {
-    if (getId()) {
-      return {
-        m: getId(),
-        ...data
-      }
-    }
-    return data
-  }
   return new Promise((resolve, reject) => {
     isLoad && uni.showLoading({ title: '文件上传中……', mask: true })
 
@@ -103,7 +97,7 @@ export const uploadFile = (
       url: `${baseURL}${url}`,
       filePath: filePath,
       name: name,
-      formData: params(),
+      formData: params(data),
       success(res) {
         if (res.statusCode !== 200) {
           errToast(isLoad, res.errMsg)

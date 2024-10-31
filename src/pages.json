@@ -12,6 +12,9 @@
     }
   ],
   "globalStyle": {
+    // #ifdef H5
+    "navigationStyle": "custom",
+    // #endif
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "uni-app",
     "navigationBarBackgroundColor": "#F8F8F8",

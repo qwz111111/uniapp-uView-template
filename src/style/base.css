@@ -1,84 +1,104 @@
-/****************************************************************
-                            大盒子
-****************************************************************/
-.main-box {
-  width: 100%;
-  height: 100%;
+/* Flex Direction */
+.flex-row {
+  flex-direction: row;
 }
-/****************************************************************
-                            弹性布局
-****************************************************************/
-.flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.flex-row-reverse {
+  flex-direction: row-reverse;
 }
-.flex-around-center {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+.flex-col {
+  flex-direction: column;
 }
-.flex-between-center {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.flex-col-reverse {
+  flex-direction: column-reverse;
 }
-.flex-evenly-center {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+
+/* Flex Wrap */
+.flex-wrap {
+  flex-wrap: wrap;
 }
-.flex-start-center {
+.flex-wrap-reverse {
+  flex-wrap: wrap-reverse;
+}
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
+
+/* Flex */
+.flex {
   display: flex;
+}
+.flex-1 {
+  flex: 1 1 0%;
+}
+.flex-auto {
+  flex: 1 1 auto;
+}
+.flex-initial {
+  flex: 0 1 auto;
+}
+.flex-none {
+  flex: none;
+}
+
+/* Justify Content */
+.justify-normal {
+  justify-content: normal;
+}
+.justify-start {
   justify-content: flex-start;
-  align-items: center;
 }
-.flex-end-center {
-  display: flex;
+.justify-end {
   justify-content: flex-end;
-  align-items: center;
 }
-.flex-center-start {
-  display: flex;
+.justify-center {
   justify-content: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.justify-around {
+  justify-content: space-around;
+}
+.justify-evenly {
+  justify-content: space-evenly;
+}
+.justify-stretch {
+  justify-content: stretch;
+}
+
+/* Align Items */
+.items-start {
   align-items: flex-start;
 }
-.flex-center-end {
-  display: flex;
-  justify-content: center;
+.items-end {
   align-items: flex-end;
 }
-/****************************************************************
-                            对齐方式
-****************************************************************/
-.horizontally-center {
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
+.items-center {
+  align-items: center;
 }
-.vertically-center {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
+.items-baseline {
+  align-items: baseline;
 }
-.horizontally-vertically-center {
-  position: relative;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+.items-stretch {
+  align-items: stretch;
 }
-.margin-auto {
-  margin: 0 auto;
+
+/* Align Self */
+.self-auto {
+  align-self: auto;
 }
-/****************************************************************
-                            文字长度限制
-****************************************************************/
-.hidden-text {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.self-start {
+  align-self: flex-start;
 }
-.transition-300 {
-  transition: all 300ms;
-  cursor: pointer;
+.self-end {
+  align-self: flex-end;
+}
+.self-center {
+  align-self: center;
+}
+.self-stretch {
+  align-self: stretch;
+}
+.self-baseline {
+  align-self: baseline;
 }
