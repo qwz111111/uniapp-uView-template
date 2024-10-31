@@ -1,4 +1,4 @@
-const baseURL = import.meta.env.VITE_API_URL
+import { baseURL } from './config'
 
 /* 错误提示 */
 const errToast = (isLoad, err) => {
