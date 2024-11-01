@@ -15,6 +15,7 @@ const getId = () => {
   } catch (e) {
     m = ''
   }
+  return m
 }
 
 /* 拼接参数 */
